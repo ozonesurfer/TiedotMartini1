@@ -13,8 +13,9 @@ import (
 func main() {
 	//	fmt.Println("Hello World!")
 	database := models.GetDB()
-	//	database.Drop(tiedotmartini1.BAND_COL)
-	//	database.Drop(tiedotmartini1.LOCATION_COL)
+	database.Drop(tiedotmartini1.BAND_COL)
+	database.Drop(tiedotmartini1.LOCATION_COL)
+	database.Drop(tiedotmartini1.GENRE_COL)
 	database.Create(tiedotmartini1.BAND_COL)
 	database.Create(tiedotmartini1.LOCATION_COL)
 	database.Create(tiedotmartini1.GENRE_COL)
@@ -27,6 +28,8 @@ func main() {
 	m.Get("/album/index/:id", controllers.AlbumIndex)
 	m.Get("/album/add/:id", controllers.AlbumAdd)
 	m.Post("/album/verify/:id", controllers.AlbumVerify)
+	m.Get("/home/genrelist", controllers.HomeGenreList)
+	m.Get("/home/bygenre/:id", controllers.HomeByGenre)
 	m.Use(martini.Static("assets"))
 	m.Run()
 }

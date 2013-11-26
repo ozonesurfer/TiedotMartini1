@@ -1,4 +1,3 @@
-<h2>Under construction</h2>
 This is an experimental website/web server written in Go (golang). It employs the Tiedot database system (which itself was written in Go) and the Martini web package.
 
 # Dependencies
