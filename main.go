@@ -13,9 +13,9 @@ import (
 func main() {
 	//	fmt.Println("Hello World!")
 	database := models.GetDB()
-	database.Drop(tiedotmartini1.BAND_COL)
-	database.Drop(tiedotmartini1.LOCATION_COL)
-	database.Drop(tiedotmartini1.GENRE_COL)
+	//	database.Drop(tiedotmartini1.BAND_COL)
+	//	database.Drop(tiedotmartini1.LOCATION_COL)
+	//	database.Drop(tiedotmartini1.GENRE_COL)
 	database.Create(tiedotmartini1.BAND_COL)
 	database.Create(tiedotmartini1.LOCATION_COL)
 	database.Create(tiedotmartini1.GENRE_COL)

@@ -32,6 +32,7 @@ func BandVerify(r http.ResponseWriter, rq *http.Request) {
 	locType := rq.FormValue("loctype")
 	var locationId uint64
 	errorString := "no errors"
+	var err error
 	switch locType {
 	case "existing":
 		locationIdString := rq.FormValue("location_id")
@@ -45,26 +46,33 @@ func BandVerify(r http.ResponseWriter, rq *http.Request) {
 		if rq.FormValue("country") == "" {
 			errorString = "Country is required"
 		} else {
-			location := map[string]interface{}{"city": rq.FormValue("city"),
+			city := rq.FormValue("city")
+			state := rq.FormValue("state")
+			country := rq.FormValue("country")
+			location := map[string]interface{}{
+				"city": 	city,
+				"state": 	state,
+				"country":	country}
+		/*	location := map[string]interface{}{"city": rq.FormValue("city"),
 				"state":   rq.FormValue("state"),
-				"country": rq.FormValue("country")}
-			id, err := models.AddDoc(location, tiedotmartini1.LOCATION_COL)
+				"country": rq.FormValue("country")} */
+			
+			locationId, err = models.AddDoc(location, tiedotmartini1.LOCATION_COL)
 			if err != nil {
-				errorString = fmt.Sprintf("Add location error: %s", err.Error())
-				locationId = 0
-			} else {
-				locationId = id
+				errorString = "error on location addition: " + err.Error()
+			//	locationId = 0
 			}
 		}
 		break
 	default:
 		errorString = "You need to select an option"
-		locationId = 0
+	//	locationId = 0
 	}
 	if errorString == "no errors" {
+		var albums []models.Album
 		band := map[string]interface{}{"name": name,
 			"location_id": locationId,
-			"albums":      []models.Album{}}
+			"albums":      albums}
 		_, err := models.AddDoc(band, tiedotmartini1.BAND_COL)
 		if err != nil {
 			errorString = fmt.Sprintf("Add band error: %s", err.Error())

@@ -2,11 +2,11 @@
 package controllers
 
 import (
-	//	"fmt"
+	"fmt"
 	"github.com/codegangsta/martini"
 	"html/template"
 	"net/http"
-	"strconv"
+	//	"strconv"
 	"tiedotmartini1"
 	"tiedotmartini1/models"
 )
@@ -41,10 +41,12 @@ func HomeGenreList(r http.ResponseWriter, rw *http.Request) {
 
 func HomeByGenre(params martini.Params, r http.ResponseWriter, rw *http.Request) {
 	rawId := params["id"]
-	id, _ := strconv.ParseUint(rawId, 10, 64)
+	//	id, _ := strconv.ParseUint(rawId, 10, 64)
+	id := models.ToObjectId(rawId)
 	bands := models.GetBandsByGenre(id)
 	genreName := models.GetGenreName(id)
-	title := genreName + " Albums"
+	//	title := genreName + " Albums"
+	title := fmt.Sprintf("%s Albums", genreName)
 	t, err := template.ParseFiles("src/tiedotmartini1/views/home/bygenre.html")
 	if err != nil {
 		panic(err)

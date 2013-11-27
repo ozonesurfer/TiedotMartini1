@@ -174,16 +174,18 @@ func (this *DocWithID) AddAlbum(album Album) error {
 	band.Albums = []Album{}
 	if original["albums"] != nil {
 		for _, a := range original["albums"].([]interface{}) {
-			x := a.(map[string]interface{})
-			z := x["genre_id"].(float64)
-			y := x["year"].(float64)
-			q := Album{Name: x["album_name"].(string), Year: int(y),
+			x2 := a.(map[string]interface{})
+			z := x2["genre_id"].(float64)
+			y := x2["year"].(float64)
+			q := Album{Name: x2["album_name"].(string), Year: int(y),
 				GenreId: uint64(z)}
 			band.Albums = append(band.Albums, q)
 		}
 	}
 	band.Albums = append(band.Albums, album)
-	newKey, err := collection.Update(this.DocKey, band)
+	bandMap := map[string]interface{}{"name": original["name"].(string),
+		"location_id": uint64(x), "albums": band.Albums}
+	newKey, err := collection.Update(this.DocKey, bandMap)
 	this.DocKey = newKey
 	return err
 }
